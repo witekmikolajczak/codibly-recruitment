@@ -1,0 +1,27 @@
+body, html {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  /* box-sizing: border-box; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+:root {
+  --background-secondary: #36364df2;
+  --background-primary: #28293d;
+  --button-primary: #1ce0d9;
+  --button-secondary: #404055;
+  --text-grey: #b9b9b9;
+  --text-black: #2d2f45;
+  --text-white: #ffffff;
+
+  --text-green: #1ce0d9;
+  --green: #3ac47d;
+  --red: #d92550;
+}
+
+.App {
+  background-color: var(--background-secondary); 
+  min-height: 100vh;
+  width: 100%;
+}
