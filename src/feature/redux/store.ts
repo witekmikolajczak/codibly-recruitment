@@ -1,13 +1,13 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import createReducer from "./root";
-import  { productApi }  from "./api/product"
+import  { apiData }  from "./api/apiData"
 
 export function initStore() {
   return configureStore({
     reducer: createReducer(),
     middleware: (getDefaultMiddleware) => [
       ...getDefaultMiddleware(),
-      productApi.middleware,
+      apiData.middleware,
     ],
   });
 }
