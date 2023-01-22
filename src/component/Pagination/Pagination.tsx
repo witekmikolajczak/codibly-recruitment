@@ -1,57 +1,47 @@
-import React, { useState } from 'react';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import { IconButton } from "@mui/material";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 
-interface PaginationInterface {
-   data:{
-      total:number;
-      data:{
-         id:number,
-         name:string,
-         year:number,
-         color:string;
-         pantone_value:string
-      }[]
-   }
+interface PaginationActionProps {
+  count: number;
+  page: number;
+  rowsPerPage: number;
+  onPageChange: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    newPage: number,
+  ) => void;
 }
 
-export const Pagination = ({ data }: PaginationInterface) => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const perPage = 6;
-  const totalPages = Math.ceil(Number(data.total) / perPage);
+export const PaginationAction=(props: PaginationActionProps)=> {
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onPageChange } = props;
 
-  const handlePageChange = (newPage:number) => {
-    setCurrentPage(newPage);
+  const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onPageChange(event, page - 1);
   };
 
-  const paginatedData = data.data.slice((currentPage - 1) * perPage, currentPage * perPage);
+  const handleNextButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onPageChange(event, page + 1);
+  };
 
   return (
-    <div>
-      <div>
-        {paginatedData.map((item) => (
-          <div key={item.id}>
-            <p>Name: {item.id.toString()}</p>
-            <p>Name: {item.name}</p>
-            <p>Year: {item.year}</p>
-            <p>Color: {item.color}</p>
-            <p>Pantone Value: {item.pantone_value}</p>
-          </div>
-        ))}
-      </div>
-      <div>
-        <button
-          disabled={currentPage === 1}
-          onClick={() => handlePageChange(currentPage - 1)}
-        >
-          Previous
-        </button>
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => handlePageChange(currentPage + 1)}
-        >
-          Next
-        </button>
-      </div>
-    </div>
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label="previous page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+    </Box>
   );
-};
-
+}

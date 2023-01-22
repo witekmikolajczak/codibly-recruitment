@@ -15,7 +15,7 @@ export const Home = () => {
         <Input placeholder='Id'/>
       </div>
       <div className={styles["table-container"]}>
-        <CustomTable/>
+        <CustomTable fnHandleTableRowClick={()=>{}}/>
       </div>
       <CustomModal/>
     </div>
