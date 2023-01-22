@@ -6,6 +6,7 @@ global {
       year: number;
       color: string;
       pantone_value: string;
+      isOpen?: boolean
    }
    interface ApiDataInterface {
       page: number,

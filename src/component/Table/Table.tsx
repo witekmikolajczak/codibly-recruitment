@@ -13,6 +13,8 @@ import {
   CustomError,
   PaginationAction
 } from '../index';
+import { useAppDispatch } from '../../feature/redux/hook';
+import { loadCurrentApiData } from '../../feature/redux/reducer/currentApiData';
 
 interface CustomTableInterface {
   fnHandleTableRowClick:(apiData: DataInterface) => void;
@@ -26,6 +28,7 @@ export const CustomTable = ({
   isLoading,
   isSuccess
 }: CustomTableInterface) => {
+  const dispatch = useAppDispatch()
   const { 
     rowsPerPage,
     initialData,
@@ -37,6 +40,9 @@ export const CustomTable = ({
     handleChangeRowsPerPage,
     order
   } = useHandleTable()
+  console.log('----------HERE');
+  
+  console.log( initialData.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage));
   
   return (
     <TableContainer component={Paper}>
@@ -49,7 +55,7 @@ export const CustomTable = ({
             ).map((initialData) => (
               <TableRow
                 style={{backgroundColor: initialData.color }}
-                onClick={()=>fnHandleTableRowClick(initialData)} 
+                onClick={()=>dispatch(loadCurrentApiData(initialData))} 
                 key={initialData.name}>
                   <TableCell component="th" scope="row">
                     {initialData.id.toString()}
@@ -80,7 +86,7 @@ export const CustomTable = ({
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                 colSpan={3}
-                count={initialData.data.length}
+                count={initialData.total}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{
