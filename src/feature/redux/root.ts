@@ -1,10 +1,13 @@
 import { combineReducers } from "redux";
-import { productApi } from "./api/product";
-import productReducer from "./reducer/product";
+import { apiData } from "./api/apiData";
+import pageReducer from "./reducer/tablePage";
+import apiDataReducer from "./reducer/apiData";
+
 
 const initialReducers = {
-  [productApi.reducerPath]: productApi.reducer,
-  product: productReducer,
+  [apiData.reducerPath]: apiData.reducer,
+  page: pageReducer,
+  apiData: apiDataReducer
 };
 
 export const createReducer = () => {
