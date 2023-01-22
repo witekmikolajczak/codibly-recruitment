@@ -44,7 +44,8 @@ export const useHandleTable = () => {
  
    const handleChangeRowsPerPage = (
      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-   ) => {    
+   ) => {
+    
      setRowsPerPage(parseInt(event.target.value, 10));
      setPage(0);
    }; 

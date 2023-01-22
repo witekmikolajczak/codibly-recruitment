@@ -22,17 +22,16 @@ const apiDataReducer = createSlice({
   name: "apiData",
   initialState,
   reducers: {
-    loadApiData: (
+    loadApiDataCollection: (
       state,
       action: PayloadAction<typeof initialState>
     ) => {
       state = action.payload;
       return state;
     },
-
   },
 });
 
-export const { loadApiData } =
+export const { loadApiDataCollection } =
   apiDataReducer.actions;
 export default apiDataReducer.reducer;
