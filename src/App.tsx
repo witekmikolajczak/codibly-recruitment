@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import { Pagination } from './component';
+import { PaginationAction } from './component';
 import { Home } from './view/Home/Home';
 
 function App() {
