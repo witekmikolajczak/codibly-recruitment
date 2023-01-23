@@ -1,25 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-const initialState: ApiDataInterface = {
-   page: 0,
-   per_page: 0,
-   total: 0,
-   total_pages: 0,
-   data:[{
-      id: 0,
-      name: '',
-      year: 0,
-      color: '',
-      pantone_value: ''
-    }],
-    support: {
-      url: '',
-      text: ''
-    }
-}
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { emptyData } from '../../../util/emptyData';
+const initialState: ApiDataInterface = emptyData;
 
 const apiDataReducer = createSlice({
-  name: "apiData",
+  name: 'apiData',
   initialState,
   reducers: {
     loadApiDataCollection: (
@@ -32,6 +17,5 @@ const apiDataReducer = createSlice({
   },
 });
 
-export const { loadApiDataCollection } =
-  apiDataReducer.actions;
+export const { loadApiDataCollection } = apiDataReducer.actions;
 export default apiDataReducer.reducer;
