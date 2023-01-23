@@ -8,71 +8,66 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableSortLabel, TableHead } from '@mui/material';
 import { useHandleTable } from '../../feature/hook/useHandleTable';
-import { 
-  CustomLoading, 
+import {
+  CustomLoading,
   CustomError,
-  PaginationAction
+  PaginationAction,
 } from '../index';
 import { useAppDispatch } from '../../feature/redux/hook';
 import { loadCurrentApiData } from '../../feature/redux/reducer/currentApiData';
 
 interface CustomTableInterface {
-  fnHandleTableRowClick:(apiData: DataInterface) => void;
-  isError: boolean;
-  isLoading: boolean;
-  isSuccess: boolean;
+  fnHandleTableRowClick: (apiData: DataInterface) => void;
 }
 export const CustomTable = ({
   fnHandleTableRowClick,
-  isError,
-  isLoading,
-  isSuccess
 }: CustomTableInterface) => {
-  const dispatch = useAppDispatch()
-  const { 
+  const dispatch = useAppDispatch();
+  const {
     rowsPerPage,
-    initialData,
+    apiData,
     page,
-    emptyRows,
     orderBy,
     createSortHandler,
     handleChangePage,
     handleChangeRowsPerPage,
-    order
-  } = useHandleTable()
-  console.log('----------HERE');
-  
-  console.log( initialData.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage));
-  
+    order,
+    isError,
+    isSuccess,
+    isLoading,
+  } = useHandleTable();
+
   return (
     <TableContainer component={Paper}>
-      {isSuccess &&       
-        <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+      {isSuccess && (
+        <Table
+          sx={{ minWidth: 500 }}
+          aria-label="custom pagination table"
+        >
           <TableBody>
-            {(rowsPerPage > 0
-              ? initialData.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : initialData.data
-            ).map((initialData) => (
-              <TableRow
-                style={{backgroundColor: initialData.color }}
-                onClick={()=>dispatch(loadCurrentApiData(initialData))} 
-                key={initialData.name}>
-                  <TableCell component="th" scope="row">
-                    {initialData.id.toString()}
-                  </TableCell>
-                  <TableCell component="th" scope="initialData">
-                    {initialData.name}
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {initialData.year}
-                  </TableCell>
-              </TableRow>
-            ))}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
+            {apiData.data
+              .slice(0, rowsPerPage)
+              .map((apiData, index) => {
+                return (
+                  <TableRow
+                    style={{ backgroundColor: apiData.color }}
+                    onClick={() =>
+                      dispatch(loadCurrentApiData(apiData))
+                    }
+                    key={index}
+                  >
+                    <TableCell component="th" scope="row">
+                      {apiData.id.toString()}
+                    </TableCell>
+                    <TableCell component="th" scope="apiData">
+                      {apiData.name}
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {apiData.year}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
           <TableFooter>
             <TableRow>
@@ -81,12 +76,19 @@ export const CustomTable = ({
                   active={orderBy === 'id'}
                   direction={order}
                   onClick={createSortHandler('id')}
-                >sort by id</TableSortLabel>
+                >
+                  sort by id
+                </TableSortLabel>
               </TableCell>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                rowsPerPageOptions={[
+                  5,
+                  10,
+                  25,
+                  { label: 'All', value: -1 },
+                ]}
                 colSpan={3}
-                count={initialData.total}
+                count={apiData.total}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{
@@ -102,10 +104,9 @@ export const CustomTable = ({
             </TableRow>
           </TableFooter>
         </Table>
-      }
-      {isError && <CustomError/>}
-      {isLoading && <CustomLoading/>}
-
+      )}
+      {isError && <CustomError />}
+      {isLoading && <CustomLoading />}
     </TableContainer>
   );
-}
+};
